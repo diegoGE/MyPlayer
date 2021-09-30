@@ -10,7 +10,7 @@ import com.example.myplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter by lazy { MediaAdapter(getItems()){ toast(it.title) } }
+    private val adapter by lazy { MediaAdapter(MediaProvider.getItems()){ toast(it.title) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         adapter.items = getItems().let {media ->
+         adapter.items = MediaProvider.getItems().let {media ->
              when(item.itemId){
                  R.id.filter_photos -> media.filter { it.type == Type.PHOTO }
                  R.id.filter_videos -> media.filter { it.type == Type.VIDEO }
