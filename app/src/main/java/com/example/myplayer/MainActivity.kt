@@ -1,15 +1,11 @@
 package com.example.myplayer
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
+import com.example.myplayer.MediaItem.Type
 import com.example.myplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +18,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.recycler.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         adapter.items = getItems().let {media ->
+             when(item.itemId){
+                 R.id.filter_photos -> media.filter { it.type == Type.PHOTO }
+                 R.id.filter_videos -> media.filter { it.type == Type.VIDEO }
+                 R.id.filter_all -> media
+                 else -> emptyList()
+             }
+         }
+
+        return super.onOptionsItemSelected(item)
     }
 }
 
