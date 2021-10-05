@@ -6,16 +6,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.example.myplayer.MediaItem.Type
 import com.example.myplayer.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter = MediaAdapter(){ toast(it.title) }
+    private val adapter = MediaAdapter(){
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
+    }
+
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateItems(binding: ActivityMainBinding,filter: Int = R.id.filter_all){
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             binding.progress.visibility = View.VISIBLE
             adapter.items = withContext(Dispatchers.IO){getFilteredItems(filter)}
             binding.progress.visibility = View.GONE
