@@ -2,14 +2,13 @@ package com.example.myplayer
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplayer.databinding.ViewMediaItemBinding
 import kotlin.properties.Delegates
 
-class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: (MediaItem) -> Unit) :
+private typealias Listener = (MediaItem) -> Unit
+
+class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: Listener) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items: List <MediaItem> by Delegates.observable(items){_, _, _ ->
